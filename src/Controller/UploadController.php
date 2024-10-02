@@ -8,7 +8,7 @@ use Symfony\Component\Routing\Attribute\Route;
 
 class UploadController extends AbstractController
 {
-    #[Route('/upload')]
+    #[Route(path: '/upload', name: 'upload_index')]
     public function upload(): Response
     {
         return $this->render(view: 'upload/upload.html.twig');

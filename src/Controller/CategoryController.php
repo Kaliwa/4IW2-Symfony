@@ -8,12 +8,13 @@ use Symfony\Component\Routing\Attribute\Route;
 
 class CategoryController extends AbstractController
 {
-    #[Route(path: '/category')]
+    #[Route(path: '/category', name: 'category_index')]
     public function category(): Response
     {
         return $this->render(view: 'categories/category.html.twig');
     }
-    #[Route(path: '/discover')]
+
+    #[Route(path: '/discover', name: 'category_discover')]
     public function discover(): Response
     {
         return $this->render(view: 'categories/discover.html.twig');

@@ -8,7 +8,7 @@ use Symfony\Component\Routing\Attribute\Route;
 
 class ListController extends AbstractController
 {
-    #[Route('/list')]
+    #[Route('/list', name: 'list_index')]
     public function list(): Response
     {
         return $this->render(view: 'list/lists.html.twig');
