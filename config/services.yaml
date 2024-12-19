@@ -6,7 +6,6 @@
 parameters:
 
 services:
-    # default configuration for services in *this* file
     _defaults:
         autowire: true      # Automatically injects dependencies in your services.
         autoconfigure: true # Automatically registers your services as commands, event subscribers, etc.
@@ -15,6 +14,8 @@ services:
     # this creates a service per class whose id is the fully-qualified class name
     App\:
         resource: '../src/'
+        autowire: true
+        autoconfigure: true
         exclude:
             - '../src/DependencyInjection/'
             - '../src/Entity/'

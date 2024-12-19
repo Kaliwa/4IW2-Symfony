@@ -2,15 +2,18 @@
 
 namespace App\Entity;
 
+
 use App\Enum\UserAccountStatusEnum;
 use App\Repository\UserRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Security\Core\User\UserInterface;
+use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 
 #[ORM\Entity(repositoryClass: UserRepository::class)]
 #[ORM\Table(name: '`user`')]
-class User
+class User implements UserInterface, PasswordAuthenticatedUserInterface
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
@@ -20,6 +23,9 @@ class User
     #[ORM\Column(length: 255)]
     private ?string $username = null;
 
+    private string $plainPassword = '';
+
+
     #[ORM\Column(length: 255)]
     private ?string $email = null;
 
@@ -27,7 +33,7 @@ class User
     private ?string $password = null;
 
     #[ORM\Column(enumType: UserAccountStatusEnum::class)]
-    private ?UserAccountStatusEnum $accountStatus = UserAccountStatusEnum::INACTIVE;
+    private ?UserAccountStatusEnum $accountStatus = UserAccountStatusEnum::PENDING;
 
     #[ORM\ManyToOne(inversedBy: 'users')]
     private ?Subscription $currentSubscription = null;
@@ -65,6 +71,8 @@ class User
     #[ORM\OneToMany(targetEntity: WatchHistory::class, mappedBy: 'watcher')]
     private Collection $watchHistories;
 
+    #[ORM\Column]
+    private array $roles = [];
     public function __construct()
     {
         $this->comments = new ArrayCollection();
@@ -300,4 +308,30 @@ class User
 
         return $this;
     }
+
+    public function getRoles(): array
+    {
+        return $this->roles;
+    }
+
+    public function eraseCredentials(): void
+    {
+        $this->plainPassword = '';
+    }
+
+    public function getUserIdentifier(): string
+    {
+        return $this->email;
+    }
+
+    public function setPlainPassword(string $plainPassword): void
+    {
+        $this->plainPassword = $plainPassword;
+    }
+
+    public function getPlainPassword(): string
+    {
+        return $this->plainPassword;
+    }
+
 }

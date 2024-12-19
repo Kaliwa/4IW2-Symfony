@@ -5,13 +5,20 @@ namespace App\Controller;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
+use Symfony\Component\Security\Core\Authentication\AuthenticationUtils;
 
 class AuthController extends AbstractController
 {
-    #[Route('/login', name: 'auth_login')]
+    #[Route(path: '/login2', name: 'page_login')]
     public function login(): Response
     {
-        return $this->render(view: 'auth/login.html.twig');
+          return $this->render(view: 'auth/login.html.twig');
+    }
+
+    #[Route(path: '/logout', name: 'auth_logout')]
+    public function logout(): void
+    {
+        throw new \LogicException('Good bye !');
     }
 
     #[Route('/register', name: 'auth_register')]
